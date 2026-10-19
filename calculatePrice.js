@@ -24,7 +24,7 @@ function calculateTotal(price, quantity, discountCode) {
     }
 
     innvoice.totalSum = innvoice.warePrice + innvoice.shipping
-    return innvoice
+    return innvoice.totalSum
 
 }
 

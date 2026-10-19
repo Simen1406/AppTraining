@@ -1,33 +1,35 @@
 function calculateTotal(price, quantity, discountCode) {
-    let prisObjekt = {totalSum: 0, discount: 0, shipping: 0, warePrice: price }
-
-    let total = price * quantity;
-    let discountPercentage = 0
+    let innvoice = {totalSum: 0, discount: 0, shipping: 50, warePrice: price * quantity, error: ""}
     const allowedDiscountCodes = ["DISCOUNT10", "DISCOUNT20"]
+    const freeShipping = 1000
 
+    if (Math.sign(price) != 1 || Math.sign(quantity) != 1)
+        return "Error negative price or quantity"
+
+    if (innvoice.warePrice >= freeShipping) 
+        innvoice.shipping = 0
+
+
+    /*checking that discount is one of my activated discount codes*/ 
     if (allowedDiscountCodes.includes(discountCode) == false) {
-        console.log("Ingen Rabattkode lagt til eller rabattkoden eksisterer ikke")
-       discountPercentage = 0
+        innvoice.error = "ingen rabattkode, eller rabattkode eksisterer ikke"
     } else {
         if (discountCode == allowedDiscountCodes[0]) {
-            prisObjekt.discount = 0.1
+            innvoice.discount = 0.1
         } else {
-            prisObjekt.discount = 0.2
+            innvoice.discount = 0.2
         }
+        innvoice.totalSum = (innvoice.warePrice + innvoice.shipping) * (1 - innvoice.discount)
+        return innvoice
     }
-    console.log("prisObjekt", Object.values(prisObjekt))
-    let totalPrice = total * (1 - discountPercentage)
-    if (Math.sign(totalPrice) == 1) {
-        return totalPrice
-    } else {
-        return "Negativ pris, intern feil"
-    }
+
+    innvoice.totalSum = innvoice.warePrice + innvoice.shipping
+    return innvoice
 
 }
 
 
 console.log(calculateTotal(100, 2, 'DISCOUNT10')); // Example usage
-console.log(calculateTotal(50, 3, 'DISCOUNT20')); // Example usage
-console.log(calculateTotal(200, 5, "null"));
+console.log(calculateTotal(500, 2, "")); // Example usage
 console.log(calculateTotal(-100, 2, "DISCOUNT10"));
 

@@ -12,6 +12,7 @@
 - Examples must use different names and/or simplified data from my code and must demonstrate only the underlying concept.
 - When I share code, explain what it does and point out the relevant issues or improvement areas without silently fixing it.
 - If my request is ambiguous, ask what I have tried and which part I want explained before proposing a solution.
+- Answers should be short concise
 
 ## Documentation and Further Reading
 

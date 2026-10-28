@@ -65,18 +65,43 @@ console.log(workoutWithNewSet.exercises[1].sets)
 console.log(chestWorkout.exercises[1].sets)
 */
 
-function removeSet(workout, exercise, setIndex) {
-  const namedExercise = findExercise(workout, exercise)
+function removeSet(workout, exerciseName, setIndex) {
+  const namedExercise = findExercise(workout, exerciseName)
   if (namedExercise === undefined) {
     return workout
   }
 
-  const removeCorrectSet = namedExercise.sets.map((set, index) => {
-    if (index === setIndex) {
-      return set.splice 
+  if (
+    !Number.isInteger(setIndex) || 
+    setIndex > namedExercise.sets.length ||
+    setIndex < 0
+  ) {
+    return workout;
+  }
+
+  const removeCorrectSet = namedExercise.sets.filter(
+    (_, index) =>  index !== setIndex); 
+      
+
+    const updatedExercise = {
+      ...namedExercise,
+      sets: removeCorrectSet
     }
-  }) 
+
+    const updatedExercises = workout.exercises.map((exercise) => {
+      if (exercise.name === exerciseName) {
+        return updatedExercise;
+      }
+      return exercise
+    })
+    return {
+      ...workout,
+      exercises: updatedExercises
+    }
 
 }
 
-console.log(removeSet(chestWorkout, "cableFlies", 1))
+const workoutWithRemovedSet = removeSet(chestWorkout, "cableFlies", 1)
+
+console.log(workoutWithRemovedSet.exercises[1].sets)
+console.log(chestWorkout.exercises[1].sets)

@@ -31,31 +31,52 @@ function addNewSet(workout, exercise, newSet) {
 
 function updateSet(workout, exerciseName, setIndex, updatedSet) {
   const namedExercise = findExercise(workout, exerciseName)
-  if (namedExercise !== undefined) {
-  console.log(namedExercise)
+  if (namedExercise === undefined) {
+    return workout}
 
 
   const NewupdatedSet = namedExercise.sets.map((set, index) => {
     if (index === setIndex) {
-      return {
-        updateSet
-      };
-    }
+      return updatedSet
+    };
     return set
   })
+
+  const updatedExercise = {
+    ...namedExercise,
+    sets: NewupdatedSet
+  }
+
+  const updatedExercises = workout.exercises.map((exercise) => {
+    if (exercise.name === exerciseName) {
+      return updatedExercise;
+    }
+    return exercise
+  })
+
   return {
     ...workout, 
-    sets: NewupdatedSet 
-  }
-  } else {
-    return workout;
+    exercises: updatedExercises 
   }
 }
-
 /*
-const updatedWorkout = addNewSet(chestWorkout, "cableFlies", {
-  reps: 8,
-  weight: 17,
-});
+const workoutWithNewSet = updateSet(chestWorkout, "cableFlies", 2, { reps: 12, weight: 10 })
+console.log(workoutWithNewSet.exercises[1].sets)
+console.log(chestWorkout.exercises[1].sets)
 */
-console.log(updateSet(chestWorkout, "cableFlies", 2 , { reps: 12, weight: 10 }))
+
+function removeSet(workout, exercise, setIndex) {
+  const namedExercise = findExercise(workout, exercise)
+  if (namedExercise === undefined) {
+    return workout
+  }
+
+  const removeCorrectSet = namedExercise.sets.map((set, index) => {
+    if (index === setIndex) {
+      return set.splice 
+    }
+  }) 
+
+}
+
+console.log(removeSet(chestWorkout, "cableFlies", 1))

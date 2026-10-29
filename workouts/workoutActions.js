@@ -1,6 +1,7 @@
 import chestWorkout from "./workouts.js";
+import { workoutHistory } from "../data/workoutHistory.js";
 
-import { findExercise } from "./workoutUtils.js";
+import { calculateTotalWokoutVolume, findExercise } from "./workoutUtils.js";
 
 /* File for editing workouts*/
 
@@ -101,7 +102,85 @@ function removeSet(workout, exerciseName, setIndex) {
 
 }
 
+/*
 const workoutWithRemovedSet = removeSet(chestWorkout, "cableFlies", 1)
 
 console.log(workoutWithRemovedSet.exercises[1].sets)
 console.log(chestWorkout.exercises[1].sets)
+*/
+
+function findWorkoutById(workoutHistory, workoutId) {
+
+  if (workoutHistory === undefined) {
+    return "WorkoutHistory does not exist"
+  }
+
+  if (
+    !Number.isInteger(workoutId) ||
+    workoutId < 0 ||
+    workoutId > workoutHistory.length
+  ) {
+    return "WorkoutId does not exist"
+  }
+
+  return workoutHistory.filter((workout) => workout.id === workoutId) 
+} 
+
+/*
+console.log(findWorkoutById(workoutHistory, 2))
+console.log(findWorkoutById(workoutHistory, 4))
+*/
+
+function getWorkoutByType(workoutHistory, workoutType) {
+  if (workoutHistory === undefined) {
+    return "WorkoutHistory does not exist"
+  }
+
+  if (
+    !String(workoutType)
+  ) {
+    return "Workoutype does not exist"
+  }
+
+  return workoutHistory.filter((workout) => workout.type.toLowerCase() === workoutType.toLowerCase())
+}
+/*
+console.log(getWorkoutByType(workoutHistory, "chest"))
+console.log(getWorkoutByType(workoutHistory, "fullBody"))
+*/
+
+
+function findWorkoutWithExercise(workoutHistory, exerciseName) {
+  if (!Array.isArray(workoutHistory)) {
+    return [];
+  }
+  
+  return workoutHistory.filter((workout)=> {
+    return workout.exercises.some(
+      (exercise) => exercise.name === exerciseName )
+  })
+
+
+}
+/*
+console.log(findWorkoutWithExercise(workoutHistory, "cableFlies"))
+*/
+
+function calculateTotalWorkoutHistory(workoutHistory) {
+  if (!Array.isArray(workoutHistory)) return 0;
+
+  const totalVolume = workoutHistory.reduce((total, workout) => {
+    const workoutVolume = calculateTotalWokoutVolume(workout)
+    return total + workoutVolume;
+  }, 0);
+
+  return totalVolume;
+  }
+/*
+console.log(calculateTotalWorkoutHistory(workoutHistory))
+*/
+
+function sortWorkoutsByDate(workoutHistory) {
+  console.log(workoutHistory)
+}
+console.log(sortWorkoutsByDate(workoutHistory))

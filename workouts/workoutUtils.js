@@ -1,10 +1,31 @@
 import chestWorkout from "./workouts.js";
+import { workoutHistory } from "../data/workoutHistory.js";
+
+function stringToDate(string) {
+    const fullDate = new Date(string)
+    const date = fullDate.toISOString().split("T")[0]
+    return date
+}
 
 function retrieveExerciseNames(workout) {
     const exerciseList = workout.exercises.map((exercise) => exercise.name);
     return exerciseList
-
 }
+
+function SortWorkoutDates(workoutHistory) {
+    if (!Array.isArray(workoutHistory)) {
+        return [];
+    }
+
+    const sortedWorkouts = [...workoutHistory].sort((a, b) => {
+        console.log(a.date.localeCompare(b.date))
+        return b.date.localeCompare(a.date)
+    });
+    return sortedWorkouts
+}
+
+console.log(SortWorkoutDates(workoutHistory))
+
 
 export function findExercise(workout, exercise) {
     const namedExcercise = workout.exercises.find((excercise) => excercise.name === exercise)
@@ -16,7 +37,7 @@ export function findExercise(workout, exercise) {
 }
 
 
-function calculateExcerciseVolume(workout, exercise) {
+export function calculateExcerciseVolume(workout, exercise) {
     const foundExercise = findExercise(workout, exercise)
     const excerciseSets = foundExercise.sets;
     let volumeObj = {
@@ -62,7 +83,7 @@ function findHeaviestSet(workout, exercise) {
     
 }
 
-function calculateTotalWokoutVolume(workout) {
+export function calculateTotalWokoutVolume(workout) {
     let exerciseList = retrieveExerciseNames(workout)
     const exerciseListLength = exerciseList.length
     let workoutVolume = 0
@@ -74,7 +95,7 @@ function calculateTotalWokoutVolume(workout) {
         workoutVolume += currentExVolume
 
     }
-    return "Total workout volume: " +  workoutVolume
+    return workoutVolume
     
 
 }
